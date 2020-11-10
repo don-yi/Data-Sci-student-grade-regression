@@ -1,6 +1,6 @@
 filename = 'Project3-orig.xlsx';
 
-startWeight = [0, 0, 0];
+startWeight = [0 0 0 0];
 
 stepSize = .01;
 

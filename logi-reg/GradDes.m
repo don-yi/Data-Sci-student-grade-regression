@@ -3,27 +3,38 @@ function GradDes (filename, startWeight, stepSize, numItr)
 % data read from excel
 T = readtable(filename);
 
+
+%% init's
+
 % pass/fail
-Y(T.CourseGrade >= 70) = 1;
-Y(T.CourseGrade < 70) = -1;
-Y = Y';
+Y = (T.CourseGrade >= 70);
+%Y(T.CourseGrade < 70) = -1;
+%Y = Y';
 
 W = startWeight;
-X = [T.Midterm T.Homework T.Quiz];
+X = [ones(331, 1) T.Midterm T.Homework T.Quiz];
 
 % num'tor calc
 numtor = Y.*X;
 
-% denum calc
-expPwr = W * X.';
-expPwr = Y .* expPwr';
-denum = 1 + exp(expPwr);
 
-% mat b4 summation
-eachGrad = numtor ./ denum;
+%% calc's
 
-gt = -mean(eachGrad);
+for i = 1:numItr
+    % mat b4 summation
+    % denum calc
+    expPwr = W * X.';
+    expPwr = Y .* expPwr';
+    denum = 1 + exp(expPwr);
+    eachGrad = numtor ./ denum;
 
-W = W - stepSize*gt;
+    % grad calc
+    G = -mean(eachGrad);
+
+    % update weight
+    W = W - stepSize*G;
+end
+
+disp(W);
 
 end
