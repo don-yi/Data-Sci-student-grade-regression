@@ -1,9 +1,9 @@
-filename = 'Project3-orig.xlsx';
+filename = 'Project3-logi-reg.xlsx';
 
 startWeight = [0 0 0 0];
 
-stepSize = .01;
+stepSize = .0001;
 
-numItr = 10000;
+numItr = 100000;
 
 GradDes (filename, startWeight, stepSize, numItr);

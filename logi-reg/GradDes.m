@@ -7,9 +7,9 @@ T = readtable(filename);
 %% init's
 
 % pass/fail
-Y = (T.CourseGrade >= 70);
-%Y(T.CourseGrade < 70) = -1;
-%Y = Y';
+Y(T.CourseGrade >= 70) = 1;
+Y(T.CourseGrade < 70) = -1;
+Y = Y';
 
 W = startWeight;
 X = [ones(331, 1) T.Midterm T.Homework T.Quiz];
@@ -20,8 +20,9 @@ numtor = Y.*X;
 
 %% calc's
 
-for i = 1:numItr
-    % mat b4 summation
+itrCt = 1;
+% for i = 1:numItr
+while 1
     % denum calc
     expPwr = W * X.';
     expPwr = Y .* expPwr';
@@ -33,8 +34,17 @@ for i = 1:numItr
 
     % update weight
     W = W - stepSize*G;
+
+    % loop termination condition
+    if ((abs(W) < [1 1 1 1]) == [1 1 1 1]) & (itrCt > numItr)
+        break
+    end
+
+    % update ct
+    itrCt = itrCt + 1;
 end
 
 disp(W);
+disp(itrCt);
 
 end
